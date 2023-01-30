@@ -1,0 +1,18 @@
+{% extends '_base.html' %}
+{% block html %}
+<html lang="ru">
+  <head>
+      {% block head %}{{ block.super }}{% endblock %}
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+  {% block body %}
+  {{ block.super }}
+    <noscript><strong> We need JavaScript to work. Please enable it to continue.</strong></noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  {% endblock body%}
+  </body>
+</html>
+{% endblock html%}

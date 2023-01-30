@@ -1,0 +1,14 @@
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true,
+  publicPath: process.env.NODE_ENV === 'production' ? '../static' : '/',
+  outputDir: process.env.NODE_ENV === 'production' ? '../static' : 'dist/',
+  indexPath: process.env.NODE_ENV === 'production' ? '../templates/_base_vue.html' : 'index.html',
+  configureWebpack: {
+    devServer: {
+      devMiddleware: {
+        writeToDisk: true
+      }
+    }
+  }
+})
