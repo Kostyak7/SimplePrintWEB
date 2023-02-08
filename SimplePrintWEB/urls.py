@@ -5,4 +5,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('v1/', include('main.urls')),
+    path('v1/print/', include('printform.urls')),
 ]

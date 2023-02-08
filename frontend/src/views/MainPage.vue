@@ -21,7 +21,7 @@ export default {
       this.isLoading = true
       await axios
           .get(
-              'http://localhost:8000/v1/',
+              'http://localhost:8000/v1/print/form/',
               {}
           )
           .then(() => {

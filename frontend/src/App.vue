@@ -2,17 +2,20 @@
   <div class="wrap">
     <nav-bar/>
     <main-page/>
+    <print-form-page/>
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
 import MainPage from "@/views/MainPage.vue";
+import PrintFormPage from "@/views/PrintFormPage.vue";
 
 export default {
   name: 'App',
   components: {
     MainPage,
+    PrintFormPage,
     NavBar
   }
 }
