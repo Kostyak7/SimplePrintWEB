@@ -7,6 +7,7 @@ from .models import FileForPrint
 import datetime
 from uuid import uuid4
 from random import randint
+from poster3.encode import multipart_encode
 
 
 class PrintFormView(View):
@@ -26,26 +27,27 @@ def handle_uploaded_file(f):
     FileForPrint.objects.create(filename=new_filename, code_for_print=code, upload_time=datetime.datetime.now())
 
 
+# TODO ONLY PDF
+# TODO CHECK THE UPLOADED FILE
 @csrf_exempt
 def print_form_filled(request):
     print(request)
-    # print(request.body)
+    print(request.body)
     if request.method == 'POST':
+        print(request.POST['params[color]'], request.POST['params[format]'],
+              request.POST['params[amount]'], request.POST['params[payment]'])
+        print(request.FILES)
         form = UploadFileForm(request.POST, request.FILES)
-        print("method")
         if form.is_valid():
-            print("IOF - ", request.FILES['file'])
-            print(request.FILES['file'].name.split('.')[-1])
             print(request.FILES)
             handle_uploaded_file(request.FILES['file'])
-            return JsonResponse({"validate": True, "code": 1234})
+            return JsonResponse({"validate": True, "code": 123456})
     return JsonResponse({"validate": False})
 
 
 class PrintCodeView(View):
     def get(self, request, *args, **kwargs):
-
         data = {
-            "code": 1234
+            "code": 123456
         }
         return render(request, '_base_vue.html', data)

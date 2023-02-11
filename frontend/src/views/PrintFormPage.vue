@@ -3,16 +3,45 @@
     <div class="wrapper">
 
       <div class="to_main_page_button">
-        <button type="button"
-                class="btn btn-primary"
-                v-on:click="to_main_page">Что это?
-        </button>
         <div class="large-12 medium-12 small-12 cell">
-          <label>File
+          <label>Файл
             <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
           </label>
-          <button v-on:click="submitFile">Submit</button>
         </div>
+
+        <div>
+          <label>Цвет</label>
+          <select ref="color">
+            <option selected value="BLACK">Черно-Белый</option>
+            <option value="COLOR">Цветной</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Формат</label>
+          <select ref="format">
+            <option selected value="ONE-SIDE">Односторонний</option>
+            <option value="TWO-SIDE">Двусторонний</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Кол-во копий</label>
+        <input type="number" size="3" name="num" min="1" max="10" value="1" ref="amount">
+        </div>
+
+        <div>
+          <label>Форма оплаты</label>
+          <select ref="payment">
+            <option selected value="SFP">СБП</option>
+            <option value="TELEGRAM">Телеграм</option>
+          </select>
+        </div>
+
+        <button type="button"
+                class="btn btn-primary"
+                v-on:click="submitFile">Печатать
+        </button>
       </div>
     </div>
   </div>
@@ -26,6 +55,12 @@ export default {
   data() {
     return {
       file: '',
+      params: {
+        color: '',
+        format: '',
+        amount: '',
+        payment: '',
+      }
     }
   },
 
@@ -42,16 +77,29 @@ export default {
           })
     },
     handleFileUpload() {
-      this.file = this.$refs.file.files[0];
+      if (this.$refs.file.files[0]) this.file = this.$refs.file.files[0];
     },
     async submitFile() {
+      if (!this.file) return;
       let formData = new FormData();
       formData.append('file', this.file);
+      /*formData.append('color', this.$refs.color.value)
+      formData.append('format', this.$refs.format.value)
+      formData.append('amount', this.$refs.amount.value)
+      formData.append('payment', this.$refs.payment.value)*/
       await axios
           .post(
               'http://localhost:8000/v1/print/form/filled/',
-              formData,
-              { headers: {
+                formData,
+              {params: {
+                  color: this.$refs.color.value,
+                  format: this.$refs.format.value,
+                  amount: this.$refs.amount.value,
+                  payment: this.$refs.payment.value,
+                }
+              },
+              {
+                headers: {
                   'Content-Type': 'multipart/form-data'
                 }
               }
@@ -59,6 +107,10 @@ export default {
           .then(() => {
             this.isLoading = false
           })
+      await axios
+          .post(
+              ''
+          )
     }
   }
 }
