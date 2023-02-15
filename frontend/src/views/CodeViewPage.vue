@@ -3,7 +3,7 @@
     <div class="wrapper">
 
       <div class="output_window">
-          <input value="123456">
+          <input ref="code" value="123456">
         </div>
 
     </div>
@@ -14,7 +14,12 @@
 import axios from "axios";
 
 export default {
-  name: "CodeViewPage",
+  name: "code-view-page",
+  data() {
+    return {
+      code: '',
+    }
+  },
 
   methods: {
     async get_data() {
@@ -25,7 +30,7 @@ export default {
               {}
           )
           .then(({data}) => {
-            this.code_data = data.code
+            this.$refs.code.value = data.code
             this.isLoading = false
           })
     }

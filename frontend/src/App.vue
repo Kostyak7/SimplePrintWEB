@@ -3,6 +3,7 @@
     <nav-bar/>
     <main-page/>
     <print-form-page/>
+    <code-view-page/>
   </div>
 </template>
 
@@ -10,13 +11,15 @@
 import NavBar from "@/components/NavBar.vue";
 import MainPage from "@/views/MainPage.vue";
 import PrintFormPage from "@/views/PrintFormPage.vue";
+import CodeViewPage from "@/views/CodeViewPage";
 
 export default {
   name: 'App',
   components: {
+    NavBar,
     MainPage,
     PrintFormPage,
-    NavBar
+    CodeViewPage,
   }
 }
 </script>

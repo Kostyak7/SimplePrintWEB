@@ -26,16 +26,8 @@
         </div>
 
         <div>
-          <label>Кол-во копий</label>
-        <input type="number" size="3" name="num" min="1" max="10" value="1" ref="amount">
-        </div>
-
-        <div>
-          <label>Форма оплаты</label>
-          <select ref="payment">
-            <option selected value="SFP">СБП</option>
-            <option value="TELEGRAM">Телеграм</option>
-          </select>
+          <label for="amount">Кол-во копий</label>
+          <input type="number" size="3" name="amount" min="1" max="10" value="1" ref="amount">
         </div>
 
         <button type="button"
@@ -55,47 +47,39 @@ export default {
   data() {
     return {
       file: '',
-      params: {
-        color: '',
-        format: '',
-        amount: '',
-        payment: '',
-      }
+
+      validate: '',
+      code: '',
     }
   },
 
   methods: {
-    async to_main_page() {
-      this.isLoading = true
-      await axios
-          .get(
-              'http://localhost:8000/v1/',
-              {}
-          )
-          .then(() => {
-            this.isLoading = false
-          })
-    },
     handleFileUpload() {
       if (this.$refs.file.files[0]) this.file = this.$refs.file.files[0];
     },
     async submitFile() {
       if (!this.file) return;
+
+      let filename_type = this.file.name.split('.');
+      let isPDF = false;
+      if (filename_type[filename_type.length - 1].toLowerCase() === "pdf") isPDF = true;
+      if (!isPDF || this.file.size > 100 * 1024 * 1024) return;
+
       let formData = new FormData();
       formData.append('file', this.file);
-      /*formData.append('color', this.$refs.color.value)
-      formData.append('format', this.$refs.format.value)
-      formData.append('amount', this.$refs.amount.value)
-      formData.append('payment', this.$refs.payment.value)*/
+      let amount_value = parseInt(this.$refs.amount.value)
+      if (amount_value > 10) amount_value = 10
+      if (amount_value < 1) amount_value = 1
+      this.$refs.amount.value = amount_value
       await axios
           .post(
               'http://localhost:8000/v1/print/form/filled/',
-                formData,
-              {params: {
+              formData,
+              {
+                params: {
                   color: this.$refs.color.value,
                   format: this.$refs.format.value,
                   amount: this.$refs.amount.value,
-                  payment: this.$refs.payment.value,
                 }
               },
               {
@@ -104,13 +88,23 @@ export default {
                 }
               }
           )
-          .then(() => {
+          .then(({data}) => {
             this.isLoading = false
+            if (data.validate && data.code) {
+              this.code = data.code
+            }
           })
-      await axios
-          .post(
-              ''
-          )
+      if (this.code) {
+        await axios
+            .get(
+                'http://localhost:8000/v1/print/code/',
+                {
+                  code: this.code,
+                }
+            )
+            .then(() => {
+            })
+      }
     }
   }
 }

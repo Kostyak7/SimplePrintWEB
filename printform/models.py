@@ -10,7 +10,6 @@ class FileForPrint(models.Model):
     color = models.CharField("Color", max_length=5, default="BLACK")
     format = models.CharField("Format", max_length=8, default="ONE-SIDE")
     amount = models.IntegerField("Amount", default=1)
-    payment = models.CharField("Color", max_length=10, default="SFP")
 
     def get_absolute_url(self):
         return f'{self.id}'
