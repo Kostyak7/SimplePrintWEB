@@ -81,7 +81,7 @@ def print_form_filled(request):
 
 
 def validate_code(code):
-    if code is not None and not FileForPrint.objects.filter(code_for_print=int(code)):
+    if code is not None and FileForPrint.objects.filter(code_for_print=int(code)):
         return int(code)
     return None
 
