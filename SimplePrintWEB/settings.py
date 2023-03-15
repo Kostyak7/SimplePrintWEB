@@ -35,6 +35,7 @@ SIMPLE_JWT = {
 INSTALLED_APPS = [
     'main',
     'printform',
+    'printer',
 
     'django.contrib.admin',
     'django.contrib.auth',

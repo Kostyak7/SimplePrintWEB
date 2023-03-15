@@ -13,7 +13,3 @@ class FileForPrint(models.Model):
 
     def get_absolute_url(self):
         return f'{self.id}'
-
-    class Meta:
-        verbose_name = 'File'
-        verbose_name_plural = 'Files'
