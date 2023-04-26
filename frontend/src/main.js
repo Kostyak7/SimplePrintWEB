@@ -1,17 +1,19 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import VueCookies from 'vue-cookies';
+import { createApp } from 'vue';
+//import VueCookies from 'vue-cookies';
+import App from './App.vue';
+import components from '@/components/UI';
+import router from "@/router";
+import '@/assets/_styles.sass';
+let VueScrollTo = require('vue-scrollto');
 
+const app = createApp(App)
 
-if (localStorage.jwtToken){
-    setAuthHeader(localStorage.jwtToken)
-}else{
-    setAuthHeader(false)
-}
-const app = createApp(App);
-app.use(VueCookies);
-app.mount('#app');
+components.forEach(component => {
+    app.component(component.name, component)
+})
 
-import 'bootstrap/dist/js/bootstrap'
-import setAuthHeader from "@/utils/SetAuthHeader";
+app
+    .use(VueScrollTo)
+    //.use(VueCookies)
+    .use(router)
+    .mount('#app')

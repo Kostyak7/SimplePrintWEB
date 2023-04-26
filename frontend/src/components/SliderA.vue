@@ -1,0 +1,36 @@
+<template>
+  <section class="slider"><p>Покорми принтер. Тяф! Тяф! Принтер грустит без тебя.</p>
+    <p>Покорми принтер. Тяф! Тяф! Принтер грустит без тебя.</p>
+    <p>Покорми принтер. Тяф! Тяф! Принтер грустит без тебя.</p>
+    <p>Покорми принтер. Тяф! Тяф! Принтер грустит без тебя.</p>
+    <p>Покорми принтер. Тяф! Тяф! Принтер грустит без тебя.</p>
+    <p>Покорми принтер. Тяф! Тяф! Принтер грустит без тебя.</p>
+    <p>Покорми принтер. Тяф! Тяф! Принтер грустит без тебя.</p></section>
+</template>
+
+<script>
+export default {
+  name: "slider-a"
+}
+</script>
+
+<style lang="sass">
+.slider
+    height: $header-height
+    background-color: $blue
+    border-bottom: $main-border
+    display: flex
+    align-items: center
+    overflow: hidden
+    p
+        margin: 0
+        animation: text 10s infinite linear
+        white-space: nowrap
+        padding-right: 3rem
+
+@keyframes text
+    0%
+        transform: translate(0, 0)
+    100%
+        transform: translate(-100%, 0)
+</style>
