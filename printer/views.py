@@ -7,7 +7,7 @@ from printform.models import FileForPrint
 
 
 def check_printer(username, password):
-    if username is None and password is None:
+    if username is None or password is None:
         return False
     printer = Printers.objects.get(username=username)
     if not printer:

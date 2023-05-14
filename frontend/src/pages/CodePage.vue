@@ -2,7 +2,9 @@
   <header-a class="header_scrolled"></header-a>
 <div class="code-page">
         <div class="container">
-          <h1>{{ $route.params.code }}</h1>
+          <qrcode-vue :value="qr.code" :size="qr.size"></qrcode-vue>
+
+          <h1>{{ qr.code }}</h1>
 
             <img class="get-file-page__flower" src="@/assets/img/Flowers-form.svg" alt="">
             <img class="get-file-page__flower-desk" src="@/assets/img/Flowers-form-desk.svg" alt="">
@@ -12,10 +14,22 @@
 
 <script>
 import HeaderA from "@/components/HeaderA";
+import QrcodeVue from 'qrcode.vue'
 
 export default {
   name: "CodePage",
-  components: { HeaderA }
+  data() {
+    return {
+      qr: {
+        code: null,
+        size: 300,
+      },
+    }
+  },
+  components: { HeaderA, QrcodeVue },
+  beforeMount() {
+    this.qr.code = this.$route.params.code;
+  }
 }
 </script>
 
