@@ -12,13 +12,13 @@
         </div>
         <ul class="list footer__nav">
           <li class="">
-            <a href="#">О нас</a>
+             <router-link :to="{name: 'main-page'}" v-scroll-to="{el: '#AboutUs', offset: -105}">О нас</router-link>
           </li>
           <li class="">
-            <a href="#">Цены</a>
+            <router-link :to="{name: 'main-page'}" v-scroll-to="{el: '#Price', offset: -45}">Цены</router-link>
           </li>
           <li class="">
-            <a href="#">Вопросы</a>
+            <router-link :to="{name: 'main-page'}" v-scroll-to="{el: '#FAQ', offset: -120}">Вопросы</router-link>
           </li>
           <li class="">
             <a href="#">Поддержка</a>
@@ -32,7 +32,7 @@
             <a href="#">VK</a>
           </li>
           <li class="">
-            <a href="#">Telegramm</a>
+            <a href="https://t.me/simpleprintt" target=”_blank”>Telegramm</a>
           </li>
           <li class="">
             <a href="#">simpleprint@hello.com</a>

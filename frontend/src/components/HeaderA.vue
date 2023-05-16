@@ -10,12 +10,14 @@
             </svg>
             <div class="navbar__logo-text">Simple Print</div>
           </router-link>
-          <button class="navbar__toggle">
+          <button class="navbar__toggle"
+                  @click="click_toggle"
+                  :class="{'navbar__toggle_active': view.isToggleOpen}">
             <div class="navbar__togline navbar__togline_1"></div>
             <div class="navbar__togline navbar__togline_2"></div>
             <div class="navbar__togline navbar__togline_3"></div>
           </button>
-          <ul class="nav">
+          <ul class="nav" :class="{'nav__active': view.isToggleOpen}">
             <li class="nav__item">
               <router-link :to="{name: 'main-page'}" v-scroll-to="{el: '#AboutUs', offset: -105}">О нас</router-link>
             </li>
@@ -38,7 +40,8 @@ export default {
   data() {
     return {
       view: {
-        topOfPage: true
+        topOfPage: true,
+        isToggleOpen: false,
       }
     }
   },
@@ -49,9 +52,18 @@ export default {
   methods: {
     handleScroll() {
       if (window.pageYOffset > 0) {
-        if (this.view.topOfPage) this.view.topOfPage = false
+        if (this.view.topOfPage) this.view.topOfPage = false;
       } else {
-        if (!this.view.topOfPage) this.view.topOfPage = true
+        if (!this.view.topOfPage && !this.view.isToggleOpen) this.view.topOfPage = true;
+      }
+    },
+    click_toggle() {
+      console.log(this.view.isToggleOpen);
+      this.view.isToggleOpen = !this.view.isToggleOpen;
+      if (this.view.isToggleOpen) {
+        this.view.topOfPage = false;
+      } else {
+        this.handleScroll();
       }
     },
   }
@@ -76,7 +88,12 @@ export default {
     align-items: center
     justify-content: space-between
     a
+        text-decoration: none
         color: black
+    &__name
+        a:hover
+            text-decoration: none
+            color: black
     &__toggle
         display: none
     &__logo
@@ -128,8 +145,10 @@ export default {
         padding: 0
         flex-wrap: wrap
         overflow: hidden
-        transition: all .2s ease
-        height: 0px
+        height: 0
+        //transition: all .2s ease
+        &__active
+          height: 30%
         &__item
             padding: 0
             width: 100%
@@ -140,5 +159,6 @@ export default {
             a
                 display: block
                 padding: 0.5rem 0
+
 
 </style>
