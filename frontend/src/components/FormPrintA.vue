@@ -9,7 +9,7 @@
                 </div>
                 <div class="form__line">
                     <label class="form-label">Цвет</label>
-                    <select ref="color" class="form-select" aria-label="Type of printing" id="formPrintType">
+                    <select ref="color" class="form-select" aria-label="Type of printing" id="formPrintType" v-model="fileColor">
                         <option selected value="BLACK">Чёрно-белая</option>
                         <option value="COLOR">Цветная</option>
                     </select>
@@ -25,7 +25,7 @@
                     <label for="numOfCopies">Количество копий</label>
                     <input ref="amount" type="number" id="numOfCopies" value="1" min="1" max="10">
                 </div>
-                <div>
+                <div @click="showPreview">
                     <a class="form__preview-button" href="#">Посмотреть превью</a>
                 </div>
                 <div class="form__submit">
@@ -36,34 +36,64 @@
             <img class="get-file-page__flower-desk" src="@/assets/img/Flowers-form-desk.svg" alt="">
         </div>
     </div>
+
+  <dialog-a v-model:show="showPdfPreview">
+  <vue-pdf-embed
+     :class="{'pdf_previewer__grayscale': fileColor === 'BLACK'}"
+      :source="pdfSource"/>
+  </dialog-a>
+
 </template>
 
 <script>
 import axios from "axios";
 import HeaderA from "@/components/HeaderA";
+import VuePdfEmbed from 'vue-pdf-embed'
 
 export default {
   name: "form-print-a",
-  components: {HeaderA},
+  components: {HeaderA,  VuePdfEmbed},
   data() {
     return {
       file: '',
-
-      validate: '',
       code: '',
+
+      showPdfPreview: false,
+      fileColor: 'BLACK',
+      pdfSource: '',
+
+      hostname: 'http://localhost:8000',
     }
   },
   methods: {
     handleFileUpload() {
       if (this.$refs.file.files[0]) this.file = this.$refs.file.files[0];
     },
-    async submitFile() {
-      if (!this.file) return;
-
+    checkPdfFile() {
+      if (!this.file) return false;
       let filename_type = this.file.name.split('.');
-      let isPDF = false;
-      if (filename_type[filename_type.length - 1].toLowerCase() === "pdf") isPDF = true;
-      if (!isPDF || this.file.size > 100 * 1024 * 1024) return;
+      console.log(this.file.name)
+      return !(filename_type[filename_type.length - 1].toLowerCase() !== "pdf" || this.file.size > 100 * 1024 * 1024);
+    },
+    convertToBase64() {
+      let fileReader = new FileReader();
+      const w = (str_) => {
+        this.pdfSource = str_;
+      }
+
+      fileReader.onload = function (fileLoadedEvent) {
+        let base64 = fileLoadedEvent.target.result;
+        w(base64.toString());
+      };
+      fileReader.readAsDataURL(this.file);
+    },
+    showPreview() {
+      if (!this.checkPdfFile()) return;
+      this.convertToBase64();
+      this.showPdfPreview = true;
+    },
+    async submitFile() {
+      if (!this.checkPdfFile()) return;
 
       let formData = new FormData();
       formData.append('file', this.file);
@@ -73,7 +103,7 @@ export default {
       this.$refs.amount.value = amount_value
       await axios
           .post(
-              'http://localhost:8000/v1/print/form/filled/',
+              this.hostname + '/v1/print/form/filled/',
               formData,
               {
                 params: {
@@ -89,23 +119,12 @@ export default {
               }
           )
           .then(({data}) => {
-            this.isLoading = false
             if (data.validate && data.code) {
               this.code = data.code
             }
           })
       if (this.code) {
         this.$router.push({name: 'code-page', params: {code: this.code}})
-        /*await axios
-            .get(
-                'http://localhost:8000/v1/print/code/',
-                {
-                  code: this.code,
-                }
-            )
-            .then(() => {
-              window.alert(this.code);
-            })*/
       }
     }
   }
@@ -128,7 +147,6 @@ export default {
         position: relative
         display: flex
         padding-top: 15vh
-
 
 .form
     width: 100%
@@ -191,4 +209,11 @@ export default {
             position: absolute
             bottom: 0
             left: 0
+
+
+.pdf_previewer__grayscale
+  -webkit-filter: grayscale(100%) !important
+  -moz-filter: grayscale(100%) !important
+  filter: grayscale(100%) !important
+
 </style>
