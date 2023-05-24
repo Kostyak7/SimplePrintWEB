@@ -10,7 +10,9 @@ SECRET_KEY = 'django-insecure-)e2*$^p)hzuh-edpg_g163c4d*_0d5)d)bdw4dxd@!tb95rrso
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost']
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
 
@@ -33,6 +35,9 @@ SIMPLE_JWT = {
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
+
     'main',
     'printform',
     'printer',
@@ -80,8 +85,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'SimplePrintWEB.wsgi.application'
-
+# WSGI_APPLICATION = 'SimplePrintWEB.wsgi.application'
+ASGI_APPLICATION = 'SimplePrintWEB.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -91,6 +96,17 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+CHANNEL_REDIS_HOST = ("127.0.0.1", 6379)
+CHANNEL_LAYERS = {
+    "default": {
+        # "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "BACKEND": 'channels.layers.InMemoryChannelLayer',
+        # "CONFIG": {
+        #     "hosts": [CHANNEL_REDIS_HOST],
+        # },
+    },
 }
 
 

@@ -5,6 +5,10 @@ from .models import Printers
 from printform.views import validate_code
 from printform.models import FileForPrint
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from rest_framework.views import APIView
+
 
 def check_printer(username, password):
     if username is None or password is None:
@@ -12,6 +16,8 @@ def check_printer(username, password):
     printer = Printers.objects.get(username=username)
     if not printer:
         return False
+    print("Got: ", password)
+    print("Real: ", printer.password)
     return printer.password == password
 
 
@@ -57,3 +63,15 @@ def file_printed(request):
             file.print_state = True
             file.save()
     return JsonResponse({"success": True})
+
+
+class PullSendAPIView(APIView):
+    def post(self, request):
+        print('Inside request')
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            "sprinter-id-0001", {"type": "send_to",
+                                 "text": "Pull from Django socket"}
+        )
+        return JsonResponse({"success": True})
+

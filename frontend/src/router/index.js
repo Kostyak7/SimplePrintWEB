@@ -1,6 +1,7 @@
 import MainPage from "@/pages/MainPage";
 import FormPage from "@/pages/FormPage";
 import CodePage from "@/pages/CodePage";
+import InputCodePage from "@/pages/InputCodePage";
 import {createRouter, createWebHistory} from "vue-router";
 
 const routes = [
@@ -18,6 +19,11 @@ const routes = [
         path: '/v1/print/code/:code',
         name: "code-page",
         component: CodePage,
+    },
+    {
+        path: '/v1/display',
+        name: "input-code-page",
+        component: InputCodePage,
     },
 ]
 

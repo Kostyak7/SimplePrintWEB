@@ -7,4 +7,5 @@ urlpatterns = [
     path('', include('main.urls')),
     path('v1/print/', include('printform.urls')),
     path('v1/printer/', include('printer.urls')),
+    path('v1/display/', include('display.urls')),
 ]
