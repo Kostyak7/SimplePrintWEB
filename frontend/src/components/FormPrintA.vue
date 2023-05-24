@@ -26,7 +26,7 @@
                     <input ref="amount" type="number" id="numOfCopies" value="1" min="1" max="10">
                 </div>
                 <div @click="showPreview">
-                    <a class="form__preview-button" href="#">Посмотреть превью</a>
+                    <a class="form__preview-button" :class="{'form__preview-button_active' : isFileExists}" href="#">Посмотреть превью</a>
                 </div>
                 <div class="form__submit">
                     <button-a class="form__button" @click="submitFile">Печатать</button-a>
@@ -59,6 +59,7 @@ export default {
       code: '',
 
       showPdfPreview: false,
+      isFileExists: false,
       fileColor: 'BLACK',
       pdfSource: '',
 
@@ -67,7 +68,10 @@ export default {
   },
   methods: {
     handleFileUpload() {
-      if (this.$refs.file.files[0]) this.file = this.$refs.file.files[0];
+      if (this.$refs.file.files[0]) {
+        this.file = this.$refs.file.files[0];
+        this.isFileExists = Boolean(this.$refs.file.files[0]);
+      }
     },
     checkPdfFile() {
       if (!this.file) return false;
@@ -169,11 +173,17 @@ export default {
             width: 60%
     &__preview-button
         color: #A7A7A7
+        transition: color .5s
+        &:not(.form__preview-button_active):hover
+            color: #A7A7A7
+            text-decoration: none
+        &_active
+            color: blue
     &__button
         margin-top: 5rem
-        background-color: #fff !important
-        padding-left: 4rem !important
-        padding-right: 4rem !important
+        background-color: #fff
+        padding-left: 4rem
+        padding-right: 4rem
 
 @media (min-width: 768px)
     .form
@@ -203,9 +213,9 @@ export default {
         position: relative
         &__button
             margin-top: 5rem
-            background-color: #fff !important
-            padding-left: 4rem !important
-            padding-right: 4rem !important
+            background-color: #fff
+            padding-left: 4rem
+            padding-right: 4rem
             position: absolute
             bottom: 0
             left: 0

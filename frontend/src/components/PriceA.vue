@@ -5,16 +5,16 @@
                 <path d="M77.0807 26.2586C79.286 15.6333 78.6444 -4.05344 58.4364 2.20142C33.1764 10.02 26.26 48.2107 1 47.0078" stroke="black" stroke-width="2"/>
             </svg>
             <h3 class="price__type price__type_1">ОДНОСТОРОННЯЯ</h3>
-            <div class="card card_1">
+            <div class="card card_1" @click="$router.push({name: 'form-page'})">
                 <div class="card__back">
                     <span class="card__type">Ч/Б</span>
                     <span class="card__for">ЛИСТ</span>
-                    <img class="card__img" src="@/assets/img/white-price-once.svg" alt="">
+                    <img class="card__img" src="@/assets/img/white-price-once.svg" alt="" v-on:click="hello">
                 </div>
                 <div class="card__price">15 ₽</div>
                 <img class="card__price-holder" src="@/assets/img/price-holder.svg" alt="">
             </div>
-            <div class="card card_2">
+            <div class="card card_2" @click="$router.push({name: 'form-page', state:{printParam: 2}})">
                 <div class="card__back">
                     <span class="card__type">ЦВЕТ</span>
                     <span class="card__for">ЛИСТ</span>
@@ -51,13 +51,25 @@
 <script>
 export default {
   name: "price-a",
+  methods: {
+    hello: function(event) {
+        console.log(1)
+    },
+    warn: function (message, event) {
+    // теперь у нас есть доступ к нативному событию
+    if (event) {
+      event.preventDefault()
+    }
+    alert(message)
+  }
+  }
 }
 </script>
 
 <style lang="sass">
 .card
     position: relative
-    z-index: -2
+    // z-index: -2
     &__back
         display: flex
         align-items: center
@@ -143,6 +155,7 @@ export default {
 .price
     overflow: hidden
     &__header
+        z-index: 1
         h2
             transform: rotate(23deg)
     &__type

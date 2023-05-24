@@ -20,14 +20,14 @@ export default {
     padding: 18px 26px
     color: black
     border: var(--border)
-    &:hover
-        background: $light-blue
     &:focus
         outline: none
 
 @media (min-width: 768px)
     .button
         padding: 22px 40px
+        &:hover
+            background: $light-blue
 
 
 </style>
