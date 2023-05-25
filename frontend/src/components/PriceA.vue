@@ -5,16 +5,16 @@
                 <path d="M77.0807 26.2586C79.286 15.6333 78.6444 -4.05344 58.4364 2.20142C33.1764 10.02 26.26 48.2107 1 47.0078" stroke="black" stroke-width="2"/>
             </svg>
             <h3 class="price__type price__type_1">ОДНОСТОРОННЯЯ</h3>
-            <div class="card card_1" @click="$router.push({name: 'form-page'})">
+            <div class="card card_1" @click="$router.push({name: 'form-page', params: {printSet: 1} })">
                 <div class="card__back">
                     <span class="card__type">Ч/Б</span>
                     <span class="card__for">ЛИСТ</span>
-                    <img class="card__img" src="@/assets/img/white-price-once.svg" alt="" v-on:click="hello">
+                    <img class="card__img" src="@/assets/img/white-price-once.svg" alt="">
                 </div>
                 <div class="card__price">15 ₽</div>
                 <img class="card__price-holder" src="@/assets/img/price-holder.svg" alt="">
             </div>
-            <div class="card card_2" @click="$router.push({name: 'form-page', state:{printParam: 2}})">
+            <div class="card card_2" @click="$router.push({name: 'form-page', params: {printSet: 2} })">
                 <div class="card__back">
                     <span class="card__type">ЦВЕТ</span>
                     <span class="card__for">ЛИСТ</span>
@@ -27,7 +27,7 @@
                 <path d="M83.095 1C63.3481 23.8543 19.2834 59.098 1 17.2386" stroke="black" stroke-width="2"/>
             </svg>
             <h3 class="price__type price__type_2">ДВУХСТОРОННЯЯ</h3>
-            <div class="card card_3">
+            <div class="card card_3" @click="$router.push({name: 'form-page', params: {printSet: 3} })">
                 <div class="card__back">
                     <span class="card__type">Ч/Б</span>
                     <span class="card__for">ЛИСТ</span>
@@ -36,7 +36,7 @@
                 <div class="card__price">17 ₽</div>
                 <img class="card__price-holder" src="@/assets/img/price-holder.svg" alt="">
             </div>
-            <div class="card card_4">
+            <div class="card card_4" @click="$router.push({name: 'form-page', params: {printSet: 4} })">
                 <div class="card__back">
                     <span class="card__type">ЦВЕТ</span>
                     <span class="card__for">ЛИСТ</span>
@@ -132,6 +132,9 @@ export default {
 
 @media (min-width: 768px)
     .card
+        transition: transform .2s
+        &:hover
+            transform: scale(1.05)
         &__back
             height: 250px
             margin-bottom: 25px
@@ -154,6 +157,7 @@ export default {
 
 .price
     overflow: hidden
+    padding-bottom: 1rem
     &__header
         z-index: 1
         h2

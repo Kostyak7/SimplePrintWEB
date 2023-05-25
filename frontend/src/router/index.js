@@ -12,6 +12,11 @@ const routes = [
     },
     {
         path: '/v1/print/form',
+        name: "form-page-default",
+        component: FormPage,
+    },
+    {
+        path: '/v1/print/form/:printSet',
         name: "form-page",
         component: FormPage,
     },

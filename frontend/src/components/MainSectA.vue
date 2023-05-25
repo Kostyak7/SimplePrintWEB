@@ -2,7 +2,7 @@
   <section class="main-sect" id="MainSect">
             <div class="container">
                 <h1 class="main-sect__main-thing">Печатай в любое время, <span>рядом <span class="nowrap">и недорого!</span></span></h1>
-                <button-a class="main-sect__button" @click="$router.push({name: 'form-page'})">Начать печатать</button-a>
+                <button-a class="main-sect__button" @click="$router.push({name: 'form-page-default'})">Начать печатать</button-a>
             </div>
             <pets-container-a></pets-container-a>
         </section>

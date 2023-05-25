@@ -10,13 +10,13 @@
                 <div class="form__line">
                     <label class="form-label">Цвет</label>
                     <select ref="color" class="form-select" aria-label="Type of printing" id="formPrintType" v-model="fileColor">
-                        <option selected value="BLACK">Чёрно-белая</option>
-                        <option value="COLOR">Цветная</option>
+                        <option value="BLACK">Чёрно-белая</option>
+                        <option selected value="COLOR">Цветная</option>
                     </select>
                 </div>
                 <div class="form__line">
                     <label class="form-label">Формат</label>
-                    <select ref="format" class="form-select" aria-label="Type of printing" id="formPrintFormat">
+                    <select ref="format" class="form-select" aria-label="Type of printing" id="formPrintFormat" v-model="filePrintFormat">
                         <option selected value="ONE-SIDE">Односторонний</option>
                         <option value="TWO-SIDE">Двухсторонний</option>
                     </select>
@@ -60,13 +60,21 @@ export default {
 
       showPdfPreview: false,
       isFileExists: false,
-      fileColor: 'BLACK',
+      fileColor: this.getSettings() % 2 === 1 ? 'BLACK' : 'COLOR',
+      filePrintFormat: this.getSettings() <= 2 ? 'ONE-SIDE' : 'TWO-SIDE',
       pdfSource: '',
 
       hostname: 'http://localhost:8000',
     }
   },
   methods: {
+    getSettings() {
+      if (! (this.$route.params.printSet)) {
+        return 1
+      } else {
+        return Number(this.$route.params.printSet)
+      }
+    },
     handleFileUpload() {
       if (this.$refs.file.files[0]) {
         this.file = this.$refs.file.files[0];
